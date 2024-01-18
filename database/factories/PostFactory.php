@@ -17,7 +17,7 @@ class PostFactory extends Factory
      */
     public function definition(): array
     { 
-        $images = ['pic1','cat03'];
+        $images = ['pic1.jpg','cat03.jpg'];
         return [
             'description' => fake()->sentence(),
             'slug' =>  fake()->regexify('[A-Za-z0-9]{19}'),

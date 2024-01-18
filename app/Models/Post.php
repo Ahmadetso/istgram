@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    protected $fillable = ['descripton','slug','image'];
 
     public function owner(){
         return $this->belongsTo(User::class, 'user_id');
