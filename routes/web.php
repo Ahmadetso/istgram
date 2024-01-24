@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/w', function () {
     return view('welcome');
 });
 
@@ -29,11 +29,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/p/create', [PostController::class, 'create'])->name('create_post');
-
-Route::get('/p/create', [PostController::class,'create'])->name('create_post')->middleware('auth');
-Route::post('/p/create', [PostController::class,'store'])->name('store_post')->middleware('auth');
-Route::get('/p/{post:slug}', [PostController::class,'show'])->name('show_post')->middleware('auth');
+Route::controller(PostController::class)->middleware('auth')->group(function (){
+Route::get('/p/create', 'create')->name('create_post');
+Route::get('/p/create','create')->name('create_post');
+Route::get('/','index')->name('home_page');
+Route::post('/p/create','store')->name('store_post');
+Route::get('/p/{post:slug}','show')->name('show_post');
+Route::get('/p/{post:slug}/edit' ,'edit')->name('post_edit');
+Route::patch('/p/{post:slug}/update', 'update')->name('update');
+Route::delete('/p/{post:slug}/delete', 'destroy')->name('delete_post');
+});
 Route::post('/p/{post:slug}/comment',[CommentController::class, 'add'])->name('comment')->middleware('auth');
+
 require __DIR__.'/auth.php';

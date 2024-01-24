@@ -17,24 +17,20 @@
                     <div class="grow">
                         <a href="/{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
                     </div>
-                    {{-- @if ($post->owner->id === auth()->id()) --}}
 
-                    @can('update', $post)
-                        <button onclick="Livewire.emit('openModal', 'edit-post-modal', {{ json_encode([$post->id]) }})">
-                            <i class='bx bx-message-square-edit text-xl'></i></button>
-                        {{-- <a href="/p/{{ $post->slug }}/edit"><i class='bx bx-message-square-edit text-xl'></i></a> --}}
-                        <form action="/p/{{ $post->slug }}/delete" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Are you sure?')">
-                                <i class='bx bx-message-square-x ltr:ml-2 rtl:mr-2 text-xl text-red-600'></i>
-                            </button>
-                        </form>
-                    @endcan
+                 @if ($post->owner->id === auth()->id())
 
-                    @cannot('update', $post)
-                        <livewire:follow-button :userId="$post->owner->id" classes="text-blue-500" />
-                    @endcannot
+                <a href="/p/{{$post->slug}}/edit">Edit</a>
+                
+                 <form action="/p/{{ $post->slug }}/delete" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure?')">
+                        <i class='bx bx-message-square-x ltr:ml-2 rtl:mr-2 text-xl text-red-600'>delete</i>
+                    </button>
+                </form>
+                     
+                 @endif
                 </div>
             </div>
 
