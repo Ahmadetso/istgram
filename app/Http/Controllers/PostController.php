@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +17,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('posts.index',compact('posts'));
+        $sug_users = auth()->user()->sug_users();
+        return view('posts.index',compact('posts','sug_users'));
     }
 
     /**
@@ -31,7 +34,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-      
+
         $data = $request->validate([
             'description' => 'required',
             'image' => ['required' , 'mimes:jpeg,gif,jpg,png'],
@@ -67,18 +70,18 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        
+
         $data = $request->validate([
             'description' => 'required',
             'image' => ['required', 'mimes:png,jpg,jpeg']
 
         ]);
 
-        
-     
+
+
         if($request->has('image')){
             $image = $request['image']->store('posts','public');
-            $data['image'] = $image; 
+            $data['image'] = $image;
         }
          $post->update($data);
          return redirect('/p/' . $post->slug);
@@ -93,5 +96,11 @@ class PostController extends Controller
     {
         Storage::delete('public/' . $post->image);
         $post->delete();
+    }
+    public function explore(){
+        $posts = Post::whereRelation('owner','private_account','=',0)
+        ->whereNot('user_id', Auth::id())
+        ->simplePaginate(9);
+        return view('posts.explore', compact('posts'));
     }
 }
