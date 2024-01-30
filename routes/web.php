@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+require __DIR__.'/auth.php';
 
 Route::get('/w', function () {
     return view('welcome');
@@ -30,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/explore', [PostController::class,'explore'])->name('explore');
+Route::get('/{user:username}',[UserController::class,'index'])->name('user_profile')->middleware('auth');
+Route::get('/{user:username}/edit', [UserController::class,'edit'])->name('user_edit')->middleware('auth');
+Route::patch('/{user:username}/update', [UserController::class,'update'])->name('user_update')->middleware('auth');
 
 Route::controller(PostController::class)->middleware('auth')->group(function (){
 Route::get('/p/create', 'create')->name('create_post');
@@ -43,4 +48,3 @@ Route::delete('/p/{post:slug}/delete', 'destroy')->name('delete_post');
 });
 Route::post('/p/{post:slug}/comment',[CommentController::class, 'add'])->name('comment')->middleware('auth');
 
-require __DIR__.'/auth.php';
