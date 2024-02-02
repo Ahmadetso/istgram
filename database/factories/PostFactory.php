@@ -16,13 +16,13 @@ class PostFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    { 
+    {
         $images = ['pic1.jpg','cat03.jpg'];
         return [
             'description' => fake()->sentence(),
             'slug' =>  fake()->regexify('[A-Za-z0-9]{19}'),
             'user_id' => User::factory(),
-            'image' => "Posts/" . fake()->randomElement($images),
+            'image' => "posts/" . fake()->randomElement($images),
         ];
     }
 }

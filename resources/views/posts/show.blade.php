@@ -12,7 +12,7 @@
             {{-- Top --}}
             <div class="border-b-2">
                 <div class="flex items-center p-5">
-                    <img src="{{ $post->owner->image }}" alt="{{ $post->owner->username }}"
+                    <img src="{{ asset('/Storage/' . $post->owner->image) }}" alt="{{ $post->owner->username }}"
                          class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
                     <div class="grow">
                         <a href="/{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
@@ -20,16 +20,17 @@
 
                  @if ($post->owner->id === auth()->id())
 
-                <a href="/p/{{$post->slug}}/edit">Edit</a>
-                
+                <a href="/p/{{$post->slug}}/edit" class="bx bx-edit-square pr-3">Edit</a>
+
+
                  <form action="/p/{{ $post->slug }}/delete" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('Are you sure?')">
-                        <i class='bx bx-message-square-x ltr:ml-2 rtl:mr-2 text-xl text-red-600'>delete</i>
+                        <i class='bx bx-message-square-x ltr:ml-2 rtl:mr-2 text-xl text-red-600'></i>
                     </button>
                 </form>
-                     
+
                  @endif
                 </div>
             </div>
@@ -37,7 +38,7 @@
             {{-- Middle --}}
             <div class="flex flex-col grow overflow-y-auto">
                 <div class="flex items-start p-5">
-                    <img src="{{ $post->owner->image }}" class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
+                    <img src="{{ asset('/Storage/' . $post->owner->image) }}" class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
                     <div>
                         <a href="{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
                         {{ $post->description }}
@@ -48,7 +49,7 @@
                 <div class="grow">
                     @foreach ($post->comments as $comment)
                         <div class="flex items-start px-5 py-2">
-                            <img src="{{ $comment->owner->image }}" alt="" class="h-100 ltr:mr-5 rtl:ml-5 w-10 rounded-full">
+                            <img src="{{ asset('/Storage/' . $comment->owner->image) }}" alt="" class="h-100 ltr:mr-5 rtl:ml-5 w-10 rounded-full">
                             <div class="flex flex-col">
                                 <div>
                                     <a href="/{{ $comment->owner->username }}" class="font-bold">{{ $comment->owner->username }}</a>

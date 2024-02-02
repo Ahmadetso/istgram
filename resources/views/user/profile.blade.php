@@ -55,7 +55,7 @@
             @foreach ($user->posts as $post)
                 <a class="aspect-square block w-full" href="/p/{{ $post->slug }}">
                     <div class="group relative">
-                        <img class="w-full aspect-square object-cover" src="{{asset("/Storage/".$post->image)}}">
+                        <img class="w-full aspect-square object-cover" src="{{asset('/Storage/' .  $post->image)}}">
                         @if (auth()->id() === $post->user_id)
                             <div
                                 class="absolute top-0 ltr:left-0 rtl:right-0 w-full h-full flex flex-row justify-center items-center group-hover:bg-black/40">
