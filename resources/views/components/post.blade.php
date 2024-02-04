@@ -1,13 +1,22 @@
 <div class="card">
     <div class="card-header">
-        <img src="{{  $post->owner->image }}" class="m-9 h-10 mr-3 rounded-full=">
+        <img src="{{ $post->owner->image }}" class="m-9 h-10 mr-3 rounded-full=">
         <a href="/{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
     </div>
     <div class="card-body">
         <div class="max-h-[35rem] overflow-hidden">
-            <img class="h-auto w-full object-cover" src="{{ asset('/storage/' . $post->image) }}"
-                alt="">
+            <img class="h-auto w-full object-cover" src="{{ asset('/storage/' . $post->image) }}" alt="">
         </div>
+        @if ($post->liked(auth()->user()))
+            <a href="/p/{{ $post->slug }}/like">
+            <i class="bx bx-heart text-red-600 text-3xl hover:text-gray-400 cursor-pointer ltr:mr-3 rtl:ml-3"></i>
+        </a>
+        @else
+        <a href="/p/{{ $post->slug }}/like">
+            <i class="bx bx-heart text-3xl hover:text-gray-400 cursor-pointer ltr:mr-3 rtl:ml-3"></i>
+        </a>
+        @endif
+
 
         @if ($post->comments->count() > 0)
             <a href="/p/{{ $post->slug }}"

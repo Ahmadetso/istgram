@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::get('/p/{post:slug}/like', LikesController::class);
 Route::get('/explore', [PostController::class,'explore'])->name('explore');
 Route::get('/{user:username}',[UserController::class,'index'])->name('user_profile')->middleware('auth');
 Route::get('/{user:username}/edit', [UserController::class,'edit'])->name('user_edit')->middleware('auth');
